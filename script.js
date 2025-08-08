@@ -210,3 +210,8 @@ async function editItem(id) {
         });
 }
 
+const logoutbtn=document.querySelector(".btn-danger")
+
+logoutbtn.addEventListener("click",()=>{
+    window.location.href="login.html"
+})
