@@ -103,8 +103,8 @@ async function fetchData() {
         let container = document.querySelector("#itemsContainer");
         container.innerHTML = "";
 
-        data.forEach((item) => {
-            container.innerHTML += `
+     data.forEach((item) => {
+    container.innerHTML += `
   <div class="col-md-4">
     <div class="card p-3">
         <img src="${item.item_image}" class="card-img-top mb-2" alt="Item Image" style="height:150px; object-fit:cover;">
@@ -113,12 +113,29 @@ async function fetchData() {
         <p>${item.item_desc}</p>
         <div class="d-flex justify-content-between mt-2">
           <button class="btn btn-sm btn-warning" onclick="editItem(${item.id})">Edit</button>
-          <button class="btn btn-sm btn-danger">Delete</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteItem(${item.id})">Delete</button>
         </div>
     </div>
   </div>
 `;
-        });
+});
+
+    }
+}
+async function deleteItem(id) {
+    if (!confirm("Are you sure you want to delete this item?")) return;
+
+    const { error } = await supabase
+        .from('items')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.error(error);
+        alert("Error deleting item!");
+    } else {
+        alert("Item deleted successfully!");
+        fetchData();
     }
 }
 
@@ -151,7 +168,7 @@ async function editItem(id) {
         window.location = "login.html";
     }
     console.log(window.location.hash)
-    const sbtn = document.querySelector("#sbtn");
+    const sbtn = document.querySelector("#signupBtn");
 
     if (sbtn) {
         sbtn.addEventListener("click", async () => {
